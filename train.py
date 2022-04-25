@@ -31,7 +31,7 @@ from torch.nn.utils.rnn import pack_padded_sequence
 import torchvision
 import torchvision.transforms as transforms
 
-from models import Encoder, Decoder
+from models import Encoder, DecoderWithAttention
 from utils import accuracy, adjust_learning_rate, clip_gradient, readImg, save_checkpoint, AverageMeter, CaptionDataset
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -182,7 +182,7 @@ def word2ind(x, word_map):
         return word_map['<unk>']
 
 
-def train(train_loader: DataLoader, encoder: Encoder, decoder: Decoder, criterion, optim_encoder, optim_decoder, epoch, alpha_c, grad_clip, print_freq):
+def train(train_loader: DataLoader, encoder: Encoder, decoder: DecoderWithAttention, criterion, optim_encoder, optim_decoder, epoch, alpha_c, grad_clip, print_freq):
     decoder.train()
     encoder.train()
     
@@ -569,11 +569,11 @@ if __name__ == "__main__":
     val_loader = DataLoader(val_data,batch_size=batch, shuffle=True, pin_memory=True)
     test_loader = DataLoader(test_data,batch_size=1, shuffle=True, pin_memory=True)
 
-    decoder = Decoder(attention_dim=attention_dim,
-                 embed_dim = emb_dim,
-                 decoder_dim=decoder_dim,
-                 vocab_size = len(word_map)+2,
-                 dropout=dropout)
+    decoder = DecoderWithAttention(attention_dim=attention_dim,
+                                   embed_dim = emb_dim,
+                                   decoder_dim=decoder_dim,
+                                   vocab_size = len(word_map)+2,
+                                   dropout=dropout)
     optim_decoder = torch.optim.Adam(params=filter(lambda p: p.requires_grad, decoder.parameters()),
                                              lr=decoder_lr)
     encoder = Encoder()

@@ -10,7 +10,7 @@ import argparse
 from scipy.misc import imread, imresize
 from PIL import Image
 
-from models import Encoder, Decoder
+from models import Encoder, DecoderWithAttention
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -191,8 +191,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Show, Attend, and Tell - Tutorial - Generate Caption')
 
     parser.add_argument('--img', '-i', help='path to image', default="images/nicholas-green-nPz8akkUmDI-unsplash.jpg")
-    parser.add_argument('--model', '-m', help='path to model', default=r"C:\Users\Thanh\Downloads\BEST_checkpoint_caption_model.pth.tar")
-    parser.add_argument('--word_map', '-wm', help='path to word map JSON', default=r"C:\Users\Thanh\Downloads\tokenizer.json")
+    parser.add_argument('--model', '-m', help='path to model', default=r"C:\Users\Thanh\Downloads\Image_Captioning_Checkpoint\BEST_checkpoint_caption_model.pth.tar")
+    parser.add_argument('--word_map', '-wm', help='path to word map JSON', default=r"C:\Users\Thanh\Downloads\Image_Captioning_Checkpoint\tokenizer.json")
     parser.add_argument('--beam_size', '-b', default=5, type=int, help='beam size for beam search')
     parser.add_argument('--dont_smooth', dest='smooth', action='store_false', help='do not smooth alpha overlay')
 
@@ -203,12 +203,14 @@ if __name__ == '__main__':
     rev_word_map = {v: k for k, v in word_map.items()}
 
     checkpoint = torch.load(args.model, map_location=torch.device("cpu"))
-    encoder = Encoder()
-    encoder.load_state_dict(checkpoint["encoder_state_dict"])
+    #encoder = Encoder()
+    #encoder.load_state_dict(checkpoint["encoder_state_dict"])
+    encoder = checkpoint["encoder"]
     encoder = encoder.to(device)
     encoder.eval()
-    decoder = Decoder(attention_dim=512, embed_dim=512, decoder_dim=512, vocab_size=len(rev_word_map) + 2)
-    decoder.load_state_dict(checkpoint["decoder_state_dict"])
+    #decoder = Decoder(attention_dim=512, embed_dim=512, decoder_dim=512, vocab_size=len(rev_word_map) + 2)
+    #decoder.load_state_dict(checkpoint["decoder_state_dict"])
+    decoder = checkpoint["decoder"]
     decoder = decoder.to(device)
     decoder.eval()
     

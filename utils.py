@@ -72,8 +72,8 @@ def save_checkpoint(output_dir, data_name, epoch, epochs_since_improvement, enco
     state = {'epoch': epoch,
              'epochs_since_improvement': epochs_since_improvement,
              'bleu-4': bleu4,
-             'encoder_state_dict': encoder.state_dict(),
-             'decoder_state_dict': decoder.state_dict(),
+             'encoder': encoder,
+             'decoder': decoder,
              'encoder_optimizer_state_dict': encoder_optimizer.state_dict() if encoder_optimizer is not None else None,
              'decoder_optimizer_state_dict': decoder_optimizer.state_dict() if decoder_optimizer is not None else None}
     filename = os.path.join(output_dir, 'checkpoint_' + data_name + '.pth.tar')
