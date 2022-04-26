@@ -584,8 +584,8 @@ if __name__ == "__main__":
 
     if checkpoint:
         checkpoint = torch.load(checkpoint)
-        decoder.load_state_dict(checkpoint['decoder_state_dict'])
-        encoder.load_state_dict(checkpoint['encoder_state_dict'])
+        decoder = checkpoint["decoder"]
+        encoder = checkpoint["encoder"]
         optim_decoder.load_state_dict(checkpoint['decoder_optimizer_state_dict'])
         if fine_tune_encoder:
             optim_encoder.load_state_dict(checkpoint['encoder_optimizer_state_dict'])
