@@ -243,7 +243,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     
     def load_image(self):
-        fname = QtWidgets.QFileDialog.getOpenFileName(self, "Open File", "", "Image files (*.jpg)")
+        fname = QtWidgets.QFileDialog.getOpenFileName(self, "Open File", "", "Image files (*.jpg *.jpeg *.png)")
         imagePath = fname[0]
         self.image = cv2.imread(imagePath)
         try:
