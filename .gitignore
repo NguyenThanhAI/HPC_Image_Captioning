@@ -25,6 +25,8 @@ checkpoint
 *.txt
 *.ipynb
 
+.history/
+
 # Editors
 .vscode/
 .idea/
