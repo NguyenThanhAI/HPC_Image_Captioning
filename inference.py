@@ -188,7 +188,7 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Show, Attend, and Tell - Tutorial - Generate Caption')
+    parser = argparse.ArgumentParser()
 
     parser.add_argument('--img', '-i', help='path to image', default="images/nicholas-green-nPz8akkUmDI-unsplash.jpg")
     parser.add_argument('--model', '-m', help='path to model', default=r"C:\Users\Thanh\Downloads\Image_Captioning_Checkpoint\BEST_checkpoint_caption_model.pth.tar")
