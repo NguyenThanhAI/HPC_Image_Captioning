@@ -22,7 +22,6 @@ checkpoint
 *.tsv
 *.json
 *.gif
-*.txt
 *.ipynb
 
 .history/
